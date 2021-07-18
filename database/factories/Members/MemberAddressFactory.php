@@ -28,8 +28,8 @@ class MemberAddressFactory extends Factory
                     return $this->faker->randomElement(Member::pluck('id')->toArray());
                 else return factory(Member::class)->create()->id;
             },
-            'name_en'       => $this->faker->name(),
-            'name_mm'       => $this->faker->firstName(),
+            'name_en'       => $this->faker->randomElement(['Home','Office']),
+            'name_mm'       => $this->faker->randomElement(['အိမ်','ရုံး']),
             'address_en'    => $this->faker->address(),
             'address_mm'    => $this->faker->address()
         ];
