@@ -3,52 +3,48 @@ namespace App\Http\Utilities;
 
 class HttpResponseUtility
 {
-    public function jsonResponse($data, $statusCode, $message)
+    public function jsonResponse($data, $code,$isSuccess, $message)
     {
         return response()->json([
-            'result' => $data,
-            'statusCode' => $statusCode,
-            'message'=> $message
-        ], $statusCode);
+            'success' => $isSuccess,
+            'message'=> $message,
+            'data' => $data,
+        ], $code);
     }
 
     public function successResponse($data = null, $statusCode = null, $message = null)
     {
-        return $this->jsonResponse($data, $statusCode ?? config('http_status.success'), $message ?? trans('message.successMsg'));
+        return $this->jsonResponse($data, $statusCode ?? config('httpCode.ok'),true, $message ?? trans('message.ok'));
     }
 
     public function badRequestResponse($data = null, $message = null)
     {
-        return $this->jsonResponse($data, config('http_status.badRequest'), $message ?? trans('message.badRequestMsg'));
+        return $this->jsonResponse($data, config('httpCode.badRequest'),false, $message ?? trans('message.badRequest'));
     }
 
     public function notFoundResponse($data = null, $message = null)
     {
-        return $this->jsonResponse($data, config('http_status.badRequest'), $message ?? trans('message.notFoundMsg'));
+        return $this->jsonResponse($data, config('httpCode.badRequest'),false, $message ?? trans('message.notFound'));
     }
 
     public function unauthorizedResponse($data = null, $message = null)
     {
-        return $this->jsonResponse($data, config('http_status.unauthorized'), $message ?? trans('message.notFoundMsg'));
+        return $this->jsonResponse($data, config('httpCode.unauthorized'),false, $message ?? trans('message.unauthorised'));
     }
-    
+
     public function createResponse($data = null, $message = null)
     {
-        return $this->jsonResponse($data, config('http_status.created'), $message ?? trans('message.createSuccessMsg'));
+        return $this->jsonResponse($data, config('httpCode.created'),true, $message ?? trans('message.created'));
     }
 
     public function updateResponse($data = null, $message = null)
     {
-        return $this->jsonResponse($data, config('http_status.success'), $message ?? trans('message.updateSuccessMsg'));
+        return $this->jsonResponse($data, config('httpCode.ok'),true, $message ?? trans('message.update'));
     }
 
     public function deleteResponse($data = null, $message = null)
     {
-        return $this->jsonResponse($data, config('http_status.success'), $message ?? trans('message.deleteSuccessMsg'));
+        return $this->jsonResponse($data, config('httpCode.ok'),true, $message ?? trans('message.delete'));
     }
 
-    public function cancleOrderResponse($data = null, $message = null)
-    {
-       return $this->jsonResponse($data, config('http_status.success'), $message ?? trans('message.orderCancelSuccess'));
-    }
 }

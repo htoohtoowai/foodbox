@@ -9,5 +9,9 @@ class Town extends Model
 {
     use HasFactory;
     protected $table ="towns";
+    protected $primaryKey = 'twon_pcode';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $guarded = [];
 }

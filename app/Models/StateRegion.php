@@ -9,5 +9,8 @@ class StateRegion extends Model
 {
     use HasFactory;
     protected $table ="state_regions";
+    protected $primaryKey = 'sr_pcode';
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $guarded = [];
 }
