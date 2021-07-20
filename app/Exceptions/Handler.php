@@ -4,6 +4,13 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use ErrorException;
+use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\ModelNotFoundException;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Database\QueryException;
 
 class Handler extends ExceptionHandler
 {
@@ -37,5 +44,52 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof NotFoundHttpException){
+            return response()->json([
+                'success' => false,
+                'message' => 'Not Found.',
+                'data' => null
+            ],Response::HTTP_NOT_FOUND);
+        }
+
+        if ($exception instanceof HttpException){
+            return response()->json([
+                'success' => false,
+                'message' => $exception->getMessage(),
+                'data' => null
+            ],$exception->getStatusCode());
+        }
+
+
+        if ($exception instanceof QueryException)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'Internal Server Error.',
+                'data' => null
+            ], 500);
+        }
+
+        if ($exception instanceof ErrorException)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'Internal Server Error.',
+                'data' => null
+            ], 500);
+        }
+
+        return parent::render($request, $exception);
+    }
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return response()->json([
+            'success' => false,
+            'message'=> "Unauthorized.",
+            'data' => null
+        ], 401);
     }
 }

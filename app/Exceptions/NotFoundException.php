@@ -11,8 +11,8 @@ class NotFoundException extends Exception
         return response()->json([
             'success' => false,
             'message'=> $this->getMessage(),
-            'data' => null,
-        ], config('http_status.badRequest'));
+            'data' => null
+        ], config('httpCode.badRequest'));
 
     }
 }

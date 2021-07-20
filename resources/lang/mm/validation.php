@@ -98,7 +98,7 @@ return [
     'password' => 'The password is incorrect.',
     'present' => 'The :attribute field must be present.',
     'regex' => 'The :attribute format is invalid.',
-    'required' => 'The :attribute field is required.',
+    'required' => 'မိတ်ဆွေ၏ :attribute အချက်အလက်ဖြည့်သွင်းရန်လိုအပ်ပါသည်။',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
     'required_with' => 'The :attribute field is required when :values is present.',
@@ -118,7 +118,7 @@ return [
     'starts_with' => 'The :attribute must start with one of the following: :values.',
     'string' => 'The :attribute must be a string.',
     'timezone' => 'The :attribute must be a valid timezone.',
-    'unique' => 'The :attribute has already been taken.',
+    'unique' => 'မိတ်ဆွေ၏  :attribute သည် ရှိပြီးသာဖြစ်ပါသည်။',
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute must be a valid URL.',
     'uuid' => 'The :attribute must be a valid UUID.',
@@ -151,6 +151,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'username' => 'အသုံးပြုသူအမည်',
+        'name' => 'အမည်',
+        'town_pcode' => 'မြို့အမည်',
+        'password' => 'လျှို့ဝှတ်နံပါတ်',
+    ],
 
 ];
