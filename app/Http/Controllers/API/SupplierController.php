@@ -45,8 +45,7 @@ class SupplierController extends Controller
      */
     public function store(SupplierRequest $request)
     {
-        $data = $this->suppliersService->store($request->all());
-        if (!$data) {
+        if (!$this->suppliersService->store($request->all())) {
             return $this->httpResponseUtility->badRequestResponse();
         }
         return $this->httpResponseUtility->createResponse();

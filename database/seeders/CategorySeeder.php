@@ -32,6 +32,6 @@ class CategorySeeder extends Seeder
                 'name_mm' => 'အခြားဝန်ဆောင်မှု'
             ]
         ]
-    );
+        );
     }
 }

@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MemberAddressSeeder::class);
         $this->call(SupplierSeeder::class);
         $this->call(SupplierAddressSeeder::class);
+        $this->call(UnitSeeder::class);
     }
 }

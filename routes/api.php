@@ -8,6 +8,13 @@ use App\Http\Controllers\API\TownController;
 use App\Http\Controllers\API\Auth\MemberController;
 use App\Http\Controllers\API\SupplierController;
 use App\Http\Controllers\API\SupplierAddressController;
+use App\Http\Controllers\API\UnitController;
+use App\Http\Controllers\API\DonorController;
+use App\Http\Controllers\API\DoneeController;
+use App\Http\Controllers\API\DonationController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,8 +38,13 @@ use App\Http\Controllers\API\SupplierAddressController;
                 Route::get('/categories', [CategoryController::class, 'index']);
                 Route::resources([
                     '/suppliers' => SupplierController::class,
+                    '/donors' => DonorController::class,
+                    '/donees' => DoneeController::class,
                 ]);
                 Route::put('/supplier-addresses/{id}', [SupplierAddressController::class, 'update']);
+                Route::get('/units', [UnitController::class, 'index']);
+                Route::get('/donors/{id}/change-status/{status}', [DonorController::class, 'changeStatus']);
+                Route::get('/donees/{id}/change-status/{status}', [DoneeController::class, 'changeStatus']);
             });
         });
 

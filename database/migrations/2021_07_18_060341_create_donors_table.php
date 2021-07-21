@@ -18,7 +18,7 @@ class CreateDonorsTable extends Migration
             $table->foreignId("category_items_id")->constrained("category_items");
             $table->foreignId("member_id")->constrained("members");
             $table->integer('qty');
-            $table->string('unit')->nullable();
+            $table->foreignId("unit_id")->nullable()->constrained("units");
             $table->tinyInteger('status')->default(1);
             $table->text('notes')->nullable();
             $table->timestamps();

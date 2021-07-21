@@ -19,7 +19,7 @@ class CreateDonationsTable extends Migration
             $table->foreignId("donor_id")->constrained("donors");
             $table->foreignId("donee_id")->constrained("donees");
             $table->integer('qty');
-            $table->string('unit')->nullable();
+            $table->foreignId("unit_id")->nullable()->constrained("units");
             $table->text('notes')->nullable();
             $table->timestamps();
         });
