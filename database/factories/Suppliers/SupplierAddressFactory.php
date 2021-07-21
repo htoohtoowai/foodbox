@@ -34,6 +34,7 @@ class SupplierAddressFactory extends Factory
                     return $this->faker->randomElement(Town::pluck('town_pcode')->toArray());
                 else return factory(Town::class)->create()->town_pcode;
             },
+            'phone' => $this->faker->e164PhoneNumber(),
             'address_en'    => $this->faker->address(),
             'address_mm'    => 'mm_'.$this->faker->address()
         ];

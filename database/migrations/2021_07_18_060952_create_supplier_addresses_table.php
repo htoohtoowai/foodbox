@@ -17,6 +17,7 @@ class CreateSupplierAddressesTable extends Migration
             $table->id();
             $table->foreignId("supplier_id")->constrained("suppliers");
             $table->string('town_pcode',12);
+            $table->string('phone',70)->nullable();
             $table->text('address_en')->nullable();
             $table->text('address_mm')->nullable();
             $table->foreign("town_pcode")->references("town_pcode")->on("towns");

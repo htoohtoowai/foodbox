@@ -7,6 +7,8 @@ use App\Http\Controllers\API\StateRegionController;
 use App\Http\Controllers\API\TownController;
 use App\Http\Controllers\API\Auth\MemberController;
 use App\Http\Controllers\API\SupplierController;
+use App\Http\Controllers\API\SupplierAddressController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,6 +32,7 @@ use App\Http\Controllers\API\SupplierController;
                 Route::resources([
                     '/suppliers' => SupplierController::class,
                 ]);
+                Route::put('/supplier-addresses/{id}', [SupplierAddressController::class, 'update']);
             });
         });
 

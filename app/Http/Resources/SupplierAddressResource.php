@@ -17,6 +17,7 @@ class SupplierAddressResource extends JsonResource
         return [
             'id' =>$this->id,
             'address' => changeLanguage($request, $this->address_en, $this->address_mm),
+            'phone' =>$this->phone,
             'towns'=>new TownResource($this->town)
         ];
     }

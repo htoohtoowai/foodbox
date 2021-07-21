@@ -14,4 +14,8 @@ class TwonRepository extends BaseRepository
     {
         return $this->model->where('sr_pcode', "$pcode")->get();
     }
+    public function isExitTownByTownPcode($pcode)
+    {
+        return $this->model->where('town_pcode', "$pcode")->first();
+    }
 }

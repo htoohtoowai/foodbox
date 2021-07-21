@@ -8,6 +8,9 @@ use App\Http\Utilities\HttpResponseUtility;
 use App\Http\Resources\SupplierResourceCollection;
 use App\Services\SupplierService;
 use App\Http\Filters\SupplierFliter;
+use App\Http\Requests\SupplierRequest;
+use App\Http\Requests\SupplierUpdateRequest;
+use App\Http\Resources\SupplierResource;
 
 class SupplierController extends Controller
 {
@@ -40,9 +43,13 @@ class SupplierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SupplierRequest $request)
     {
-        //
+        $data = $this->suppliersService->store($request->all());
+        if (!$data) {
+            return $this->httpResponseUtility->badRequestResponse();
+        }
+        return $this->httpResponseUtility->createResponse();
     }
 
     /**
@@ -53,7 +60,7 @@ class SupplierController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->httpResponseUtility->successResponse(new SupplierResource($this->suppliersService->detail($id)));
     }
 
     /**
@@ -63,9 +70,12 @@ class SupplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SupplierUpdateRequest $request, $id)
     {
-        //
+        if (!$this->suppliersService->update($request->all(),$id)) {
+            return $this->httpResponseUtility->badRequestResponse();
+        }
+        return $this->httpResponseUtility->updateResponse();
     }
 
     /**
