@@ -6,6 +6,7 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\StateRegionController;
 use App\Http\Controllers\API\TownController;
 use App\Http\Controllers\API\Auth\MemberController;
+use App\Http\Controllers\API\SupplierController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,6 +27,9 @@ use App\Http\Controllers\API\Auth\MemberController;
                 Route::get('/state-regions', [StateRegionController::class, 'index']);
                 Route::get('/towns/{srPcode}/state-region', [TownController::class, 'index']);
                 Route::get('/categories', [CategoryController::class, 'index']);
+                Route::resources([
+                    '/suppliers' => SupplierController::class,
+                ]);
             });
         });
 

@@ -13,7 +13,7 @@ abstract class BaseRepository
     {
         $this->model = $model;
         $this->nextId = 0;
-        $this->perPage = config('enums.perPage');
+        $this->perPage = config('enum.perPage');
     }
 
     public function getAll()
@@ -45,6 +45,27 @@ abstract class BaseRepository
     public function delete($id)
     {
         return $this->model->destroy($id);
+    }
+
+    public function getPaginatedByFilterAndNextId($filter, $nextId, $memberId = null)
+    {
+        $getAll = $this->model->filter($filter)->where(function ($query) use ($nextId, $memberId) {
+            if ($nextId != 0) {
+                $query->where('id', '<=', $nextId);
+            }
+            if ($memberId != null) {
+                $query->where('member_id', $memberId);
+            }
+        })->orderBy('id', 'DESC')->limit($this->perPage + 1)->get();
+        $totalCount = $getAll->count();
+        if ($totalCount > $this->perPage) {
+            $this->nextId = $getAll[$this->perPage]->id;
+            unset($getAll[$totalCount - 1]);
+        } else {
+            $this->nextId = null;
+        }
+
+        return ['data' => $getAll, 'nextId' => $this->nextId];
     }
 
 

@@ -11,4 +11,14 @@ class Supplier extends Model
     protected $table ="suppliers";
     protected $guarded = [];
     public $timestamps = false;
+
+    public function scopeFilter($query, $filters)
+    {
+        $filters->apply($query);
+    }
+
+    public function supplierAddress()
+    {
+        return $this->hasMany(SupplierAddress::class, 'supplier_id', 'id');
+    }
 }

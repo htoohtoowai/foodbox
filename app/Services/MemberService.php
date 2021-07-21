@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\MemberRepository;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
+use App\Exceptions\NotFoundException;
 
 class MemberService
 {

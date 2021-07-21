@@ -16,10 +16,10 @@ class CreateSupplierAddressesTable extends Migration
         Schema::create('supplier_addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignId("supplier_id")->constrained("suppliers");
-            $table->string('name_en',20);
-            $table->string('name_mm',20);
+            $table->string('town_pcode',12);
             $table->text('address_en')->nullable();
             $table->text('address_mm')->nullable();
+            $table->foreign("town_pcode")->references("town_pcode")->on("towns");
         });
     }
 
