@@ -11,6 +11,7 @@ use App\Http\Requests\DoneeRequest;
 use App\Http\Requests\DoneeUpdateRequest;
 use App\Http\Resources\DoneeResourceCollection;
 use App\Http\Filters\DoneeFliter;
+use App\Http\Requests\DonateRequest;
 
 class DoneeController extends Controller
 {
@@ -89,9 +90,16 @@ class DoneeController extends Controller
         return $this->httpResponseUtility->deleteResponse();
     }
 
-    public function changeStatus(Request  $request,$id,$status)
+    public function donate(DonateRequest  $request,$id)
     {
-        if (!$this->doneeService->changeStatus($request,$id,$status)) {
+        if (!$this->doneeService->donate($request,$id)) {
+            return $this->httpResponseUtility->badRequestResponse();
+        }
+        return $this->httpResponseUtility->successResponse();
+    }
+    public function done(Request  $request,$id)
+    {
+        if (!$this->doneeService->done($request,$id)) {
             return $this->httpResponseUtility->badRequestResponse();
         }
         return $this->httpResponseUtility->successResponse();

@@ -11,6 +11,8 @@ use App\Http\Requests\DonorRequest;
 use App\Http\Requests\DonorUpdateRequest;
 use App\Http\Resources\DonorResourceCollection;
 use App\Http\Filters\DonorFliter;
+use App\Http\Requests\TakeRequest;
+
 
 class DonorController extends Controller
 {
@@ -89,9 +91,16 @@ class DonorController extends Controller
         return $this->httpResponseUtility->deleteResponse();
     }
 
-    public function changeStatus(Request  $request,$id,$status)
+    public function takeDonation(TakeRequest  $request,$id)
     {
-        if (!$this->donorService->changeStatus($request,$id,$status)) {
+        if (!$this->donorService->takeDonation($request,$id)) {
+            return $this->httpResponseUtility->badRequestResponse();
+        }
+        return $this->httpResponseUtility->successResponse();
+    }
+    public function done(Request  $request,$id)
+    {
+        if (!$this->donorService->done($request,$id)) {
             return $this->httpResponseUtility->badRequestResponse();
         }
         return $this->httpResponseUtility->successResponse();

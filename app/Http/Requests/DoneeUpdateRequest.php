@@ -22,9 +22,9 @@ class DoneeUpdateRequest extends BaseRequest
     public function rules()
     {
         return [
-            'categoryItemsId' => 'required|min:1',
-            'qty' => 'required|min:1',
-            'unitId' => 'required|min:1',
+            'categoryItemsId' => 'required|integer|min:1',
+            'qty' => 'required|integer|min:1',
+            'unitId' => 'required|integer|min:1',
             'note' => 'nullable|max:150'
         ];
     }

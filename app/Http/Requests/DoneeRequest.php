@@ -23,9 +23,9 @@ class DoneeRequest extends BaseRequest
     {
         return [
             'donees' => 'required|array|max:20',
-            'donees.*.categoryItemsId' => 'required|min:1',
-            'donees.*.qty' => 'required|min:1',
-            'donees.*.unitId' => 'required|min:1',
+            'donees.*.categoryItemsId' => 'required|integer|min:1',
+            'donees.*.qty' => 'required|integer|min:1',
+            'donees.*.unitId' => 'required|integer|min:1',
             'donees.*.note' => 'nullable|max:150'
         ];
     }

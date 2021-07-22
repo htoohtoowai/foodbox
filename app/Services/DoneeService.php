@@ -7,14 +7,18 @@ use App\Repositories\CategoryItemRepository;
 use App\Repositories\UnitRepository;
 use App\Exceptions\NotFoundException;
 use Laravel\Sanctum\HasApiTokens;
+use App\Repositories\DonorRepository;
+use App\Repositories\DonationRepository;
 
 class DoneeService
 {
-    public function __construct(DoneeRepository $doneeRepo,CategoryItemRepository $categoryItemRepo,UnitRepository $unitRepo)
+    public function __construct(DoneeRepository $doneeRepo,CategoryItemRepository $categoryItemRepo,UnitRepository $unitRepo,DonorRepository $donorRepo,DonationRepository $donationRepo)
     {
         $this->doneeRepo = $doneeRepo;
         $this->categoryItemRepo = $categoryItemRepo;
         $this->unitRepo = $unitRepo;
+        $this->donorRepo = $donorRepo;
+        $this->donationRepo = $donationRepo;
 
     }
 
@@ -64,12 +68,26 @@ class DoneeService
         return $this->doneeRepo->delete($id);
     }
 
-    public function changeStatus($request,$id,$status)
+    public function donate($request,$id)
     {
-        if(!$this->doneeRepo->getById($id) || !$this->doneeRepo->isExistDoneeByAuthMember($request,$id)||$status<config('enum.status.require')||$status>config('enum.status.done')){
+        if(!$this->doneeRepo->getById($id)){
             throw new NotFoundException(trans('message.notFound'));
         }
-        return $this->doneeRepo->update(['status' => $status],$id);
+        /*** Clone Donee Information and Store Donation History***/
+        $this->donorRepo->cloneDonorFromDonee($request,$id,$status);
+        /***Push notification to related donee***/
+        return $this->doneeRepo->update(['status' => config('enum.status.inprogress')],$id);
+    }
+    public function done($request,$id)
+    {
+        if(!$this->doneeRepo->getById($id) || !$this->doneeRepo->isExistDonorByAuthMember($request,$id)){
+            throw new NotFoundException(trans('message.notFound'));
+        }
+        /***Push notification to related donee***/
+        $donation = $this->donationRepo->getDonationByDoneeID($id);
+        $this->donorRepo->changeDoneStaus($donation->donor_id);
+
+        return $this->doneeRepo->update(['status' => config('enum.status.done')],$id);
     }
 
 }

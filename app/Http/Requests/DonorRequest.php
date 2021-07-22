@@ -23,9 +23,9 @@ class DonorRequest extends BaseRequest
     {
         return [
             'donors' => 'required|array|max:20',
-            'donors.*.categoryItemsId' => 'required|min:1',
-            'donors.*.qty' => 'required|min:1',
-            'donors.*.unitId' => 'required|min:1',
+            'donors.*.categoryItemsId' => 'required|integer|min:1',
+            'donors.*.qty' => 'required|integer|min:1',
+            'donors.*.unitId' => 'required|integer|min:1',
             'donors.*.note' => 'nullable|max:150'
         ];
     }

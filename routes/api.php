@@ -43,8 +43,10 @@ use App\Http\Controllers\API\DonationController;
                 ]);
                 Route::put('/supplier-addresses/{id}', [SupplierAddressController::class, 'update']);
                 Route::get('/units', [UnitController::class, 'index']);
-                Route::get('/donors/{id}/change-status/{status}', [DonorController::class, 'changeStatus']);
-                Route::get('/donees/{id}/change-status/{status}', [DoneeController::class, 'changeStatus']);
+                Route::post('/donors/{id}/take-donation', [DonorController::class, 'takeDonation']);
+                Route::post('/donors/{id}/done', [DonorController::class, 'done']);
+                Route::post('/donees/{id}/donate', [DoneeController::class, 'donate']);
+                Route::post('/donees/{id}/done', [DoneeController::class, 'done']);
             });
         });
 
