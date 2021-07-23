@@ -5,16 +5,16 @@ namespace App\Repositories;
 use App\Models\Donee;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Donation;
-use App\Repositories\DonorRepository;
+use App\Models\Donor;
 
 class DoneeRepository extends BaseRepository
 {
-    public function __construct(Donee $model,DonorRepository $donorRepo,Donation $donationModel)
+    public function __construct(Donee $model,Donor $donorModel,Donation $donationModel)
     {
         $this->model = $model;
         $this->perPage = config('enum.perPage');
         $this->donationModel =  $donationModel;
-        $this->donorRepo = $donorRepo;
+        $this->donorModel = $donorModel;
 
     }
 
@@ -41,7 +41,7 @@ class DoneeRepository extends BaseRepository
     public function cloneDoneeFromDonor($request,$id)
     {
         if($request['takeStatus']==config('enum.takeStatus.all')){
-            $data = $this->donorRepo->getById($id);
+            $data =$this->donorModel->find($id);
             $donee = $this->model->create(
                 [
                 'category_items_id'=>  $data['category_items_id'],
@@ -52,7 +52,7 @@ class DoneeRepository extends BaseRepository
                 'notes' =>   $data['note']
                 ]);
 
-                return $this->donationRepo->create(
+                return $this->donationModel->create(
                     [
                     'category_items_id'=>  $data['category_items_id'],
                     'donor_id'=> $id,
@@ -71,7 +71,7 @@ class DoneeRepository extends BaseRepository
                 'status' =>  config('enum.status.inprogress'),
                 'notes' =>   $request['note']
                 ]);
-               return  $this->donationRepo->create(
+               return  $this->donationModel->create(
                     [
                     'category_items_id'=>  $request['categoryItemsId'],
                     'donor_id'=> $id,
@@ -86,6 +86,6 @@ class DoneeRepository extends BaseRepository
 
     public function changeDoneStaus($id)
     {
-        return $this->model->update(['status' => config('enum.status.done')],$id);
+        return $this->model->where('id',$id)->update(['status' => config('enum.status.done')]);
     }
 }

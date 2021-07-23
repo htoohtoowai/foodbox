@@ -20,6 +20,6 @@ class DonationRepository extends BaseRepository
 
     public function getDonationByDoneeID($doneeId)
     {
-        return $this->model->where('donee_id ', $doneeId)->first();
+        return $this->model->where('donee_id', $doneeId)->first();
     }
 }

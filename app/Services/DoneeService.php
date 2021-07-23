@@ -74,13 +74,13 @@ class DoneeService
             throw new NotFoundException(trans('message.notFound'));
         }
         /*** Clone Donee Information and Store Donation History***/
-        $this->donorRepo->cloneDonorFromDonee($request,$id,$status);
+        $this->donorRepo->cloneDonorFromDonee($request,$id);
         /***Push notification to related donee***/
         return $this->doneeRepo->update(['status' => config('enum.status.inprogress')],$id);
     }
     public function done($request,$id)
     {
-        if(!$this->doneeRepo->getById($id) || !$this->doneeRepo->isExistDonorByAuthMember($request,$id)){
+        if(!$this->doneeRepo->getById($id) || !$this->doneeRepo->isExistDoneeByAuthMember($request,$id)){
             throw new NotFoundException(trans('message.notFound'));
         }
         /***Push notification to related donee***/

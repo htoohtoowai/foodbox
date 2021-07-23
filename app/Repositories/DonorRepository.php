@@ -4,16 +4,17 @@ namespace App\Repositories;
 
 use App\Models\Donor;
 use Laravel\Sanctum\HasApiTokens;
-use App\Repositories\DoneeRepository;
+use App\Models\Donee;
+use App\Models\Donation;
 
 class DonorRepository extends BaseRepository
 {
-    public function __construct(Donor $model,DoneeRepository $doneeRepo,Donation $donationModel)
+    public function __construct(Donor $model,Donee $doneeModel,Donation $donationModel)
     {
         $this->model = $model;
         $this->perPage = config('enum.perPage');
         $this->donationModel =  $donationModel;
-        $this->doneeRepo = $doneeRepo;
+        $this->doneeModel = $doneeModel;
 
     }
 
@@ -41,7 +42,7 @@ class DonorRepository extends BaseRepository
     public function cloneDonorFromDonee($request,$id)
     {
         if($request['donateStatus']==config('enum.donateStatus.all')){
-            $data = $this->doneeRepo->getById($id);
+            $data = $this->doneeModel->find($id);
             $donor = $this->model->create(
                 [
                 'category_items_id'=>  $data['category_items_id'],
@@ -52,10 +53,10 @@ class DonorRepository extends BaseRepository
                 'notes' =>   $data['note']
                 ]);
 
-                return $this->donationRepo->create(
+                return $this->donationModel->create(
                     [
                     'category_items_id'=>  $data['category_items_id'],
-                    'donor_id'=> $id,
+                    'donee_id'=> $id,
                     'donor_id'=> $donor->id,
                     'qty'=> $data['qty'],
                     'unit_id' =>  $data['unit_id'],
@@ -71,10 +72,10 @@ class DonorRepository extends BaseRepository
                 'status' =>  config('enum.status.inprogress'),
                 'notes' =>   $request['note']
                 ]);
-               return  $this->donationRepo->create(
+               return  $this->donationModel->create(
                     [
                     'category_items_id'=>  $request['categoryItemsId'],
-                    'donor_id'=> $id,
+                    'donee_id'=> $id,
                     'donor_id'=> $donor->id,
                     'qty'=> $request['qty'],
                     'unit_id' =>  $request['unitId'],
@@ -86,7 +87,7 @@ class DonorRepository extends BaseRepository
 
     public function changeDoneStaus($id)
     {
-        return $this->model->update(['status' => config('enum.status.done')],$id);
+        return $this->model->where('id',$id)->update(['status' => config('enum.status.done')]);
     }
 
 }
