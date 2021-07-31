@@ -36,6 +36,7 @@ class MemberRepository extends BaseRepository
             'id'=>$member->id,
             'username'=>$member->username,
             'name'=>$member->name,
+            'level'=>$member->level,
             'townPcode'=>$member->town_pcode
           ]
           ,$token];
