@@ -18,13 +18,13 @@ use App\Http\Controllers\API\Auth\MemberController;
 */
     Route::group(['middleware' => 'localization'], function () {
         Route::group(['prefix' => 'v1.0.0'], function () {
+            Route::get('/state-regions', [StateRegionController::class, 'index']);
+            Route::get('/towns/{srPcode}/state-region', [TownController::class, 'index']);
             Route::group(['prefix' => 'members'], function () {
                 Route::post('/register', [MemberController::class, 'register']);
                 Route::post('/login', [MemberController::class, 'login']);
             });
             Route::group(['middleware' => ['auth:sanctum']], function (){
-                Route::get('/state-regions', [StateRegionController::class, 'index']);
-                Route::get('/towns/{srPcode}/state-region', [TownController::class, 'index']);
                 Route::get('/categories', [CategoryController::class, 'index']);
             });
         });
